@@ -3858,13 +3858,11 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 					GroupboxTemplateInstance =
 						tabs["Tab_TEMPLATE"].ScrollingCollumnTemplate["Groupbox_Style1"].PART_Content
 
-					Groupbox.Instance.Header.Text = GroupboxSettings.Name
-					Groupbox.Instance.Header.UIPadding.PaddingLeft =
-						UDim.new(0, not String.IsEmptyOrNull(GroupboxSettings.Icon) and 32 or 6)
-					Groupbox.Instance.Header.Icon.Image = "rbxassetid://" .. GroupboxSettings.Icon
-					Groupbox.Instance.Name = "GROUPBOX_" .. GroupIndex
-
-					ThemeMethods.bindTheme(Groupbox.Instance.Header, "TextColor3", "Foregrounds.Medium")
+				Groupbox.Instance.Header.Text = GroupboxSettings.Name
+				Groupbox.Instance.Header.UIPadding.PaddingLeft =
+					UDim.new(0, not String.IsEmptyOrNull(GroupboxSettings.Icon) and 32 or 6)
+				Groupbox.Instance.Header.Icon.Image = GroupboxSettings.Icon ~= "" and "rbxassetid://" .. GroupboxSettings.Icon or ""
+				Groupbox.Instance.Name = "GROUPBOX_" .. tostring(GroupIndex or "0")					ThemeMethods.bindTheme(Groupbox.Instance.Header, "TextColor3", "Foregrounds.Medium")
 					ThemeMethods.bindTheme(Groupbox.Instance.Header.Icon, "ImageColor3", "Foregrounds.Medium")
 					ThemeMethods.bindTheme(Groupbox.Instance.PART_Backdrop, "BackgroundColor3", "Backgrounds.Medium")
 					ThemeMethods.bindTheme(
@@ -3929,11 +3927,9 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 					end
 					oldInstance:Destroy()
 
-				Groupbox.Instance.Header.Text = NewGroupboxSettings.Name
-				Groupbox.Instance.Header.Icon.Image = "rbxassetid://" .. NewGroupboxSettings.Icon
-				Groupbox.Instance.Name = "GROUPBOX_" .. GroupIndex
-				
-				local targetColumn = Tab.Instances.Page["Column_" .. NewGroupboxSettings.Column]
+			Groupbox.Instance.Header.Text = NewGroupboxSettings.Name
+			Groupbox.Instance.Header.Icon.Image = NewGroupboxSettings.Icon ~= "" and "rbxassetid://" .. NewGroupboxSettings.Icon or ""
+			Groupbox.Instance.Name = "GROUPBOX_" .. tostring(GroupIndex or "0")				local targetColumn = Tab.Instances.Page["Column_" .. NewGroupboxSettings.Column]
 				if targetColumn then
 					Groupbox.Instance.Parent = targetColumn
 				else
