@@ -5716,54 +5716,40 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 						end)
 
 					local dragFunction = function(X)
-						local Current = Element.Instance.PART_Backdrop.PART_Progress.AbsolutePosition.X
-							+ Element.Instance.PART_Backdrop.PART_Progress.AbsoluteSize.X
-						local Start = Current
-						local Location = X
 						local Loop
 						Loop = RunService.Stepped:Connect(function()
 							if Element.SLDragging then
-								-- Support both mouse and touch
+								-- Get current mouse/touch position
+								local Location
 								if UserInputService.TouchEnabled then
 									local mousePos = UserInputService:GetMouseLocation()
 									Location = mousePos.X
 								else
 									Location = Mouse.X
 								end
-								Current = Location
+								
+								-- Clamp location to slider bounds
+								local minX = Element.Instance.PART_Backdrop.AbsolutePosition.X
+								local maxX = minX + Element.Instance.PART_Backdrop.AbsoluteSize.X
+								
+								if Location < minX then
+									Location = minX
+								elseif Location > maxX then
+									Location = maxX
+								end
 
-								if Location < Element.Instance.PART_Backdrop.AbsolutePosition.X then
-										Location = Element.Instance.PART_Backdrop.AbsolutePosition.X
-									elseif
-										Location
-										> Element.Instance.PART_Backdrop.AbsolutePosition.X
-											+ Element.Instance.PART_Backdrop.AbsoluteSize.X
-									then
-										Location = Element.Instance.PART_Backdrop.AbsolutePosition.X
-											+ Element.Instance.PART_Backdrop.AbsoluteSize.X
-									end
-
-									if Current < Element.Instance.PART_Backdrop.AbsolutePosition.X then
-										Current = Element.Instance.PART_Backdrop.AbsolutePosition.X
-									elseif
-										Current
-										> Element.Instance.PART_Backdrop.AbsolutePosition.X
-											+ Element.Instance.PART_Backdrop.AbsoluteSize.X
-									then
-										Current = Element.Instance.PART_Backdrop.AbsolutePosition.X
-											+ Element.Instance.PART_Backdrop.AbsoluteSize.X
-									end
-
-									if Current <= Location and (Location - Start) < 0 then
-										Start = Location
-									elseif Current >= Location and (Location - Start) > 0 then
-										Start = Location
-									end
-
-						local percentage = (Current - Element.Instance.PART_Backdrop.AbsolutePosition.X)
-							/ Element.Instance.PART_Backdrop.AbsoluteSize.X
-						-- Direct update without tween for smooth mobile dragging
-						Element.Instance.PART_Backdrop.PART_Progress.Size = UDim2.new(percentage, 0, 1, 0)									local NewValue = ((Element.Values.Range[2] - Element.Values.Range[1]) * percentage)
+								-- Calculate percentage directly from location
+								local percentage = (Location - minX) / Element.Instance.PART_Backdrop.AbsoluteSize.X
+								
+								-- Clamp percentage
+								if percentage < 0 then
+									percentage = 0
+								elseif percentage > 1 then
+									percentage = 1
+								end
+								
+								-- Direct update without tween for smooth mobile dragging
+								Element.Instance.PART_Backdrop.PART_Progress.Size = UDim2.new(percentage, 0, 1, 0)									local NewValue = ((Element.Values.Range[2] - Element.Values.Range[1]) * percentage)
 										+ Element.Values.Range[1]
 
 									NewValue = math.floor(NewValue / Element.Values.Increment + 0.5)
