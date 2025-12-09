@@ -4375,207 +4375,207 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 				end
 
 
-			-- coded by justhey the goat
-			function Groupbox:CreateDropdown(ElementSettings, Index)
-				
-				--[[
-				ElementSettings = {
-					Name = string,
-					Icon = number, **
-					ImageSource = string, **
-					Options = table, {string ...}
-					CurrentOption = table/string, {string ...} **
-					MultipleOptions = bool, **
-					Special = number, ** -- 0/nil for none, 1 for Player, 2 for Teams, more hopefully coming soon
+				-- coded by justhey the goat
+				function Groupbox:CreateDropdown(ElementSettings, Index)
 					
-					Callback = function(table)
-				}
-				]]
-				ElementSettings.ImageSource = ElementSettings.ImageSource or "Material"
-				ElementSettings.CurrentOption = ElementSettings.CurrentOption or ({ElementSettings.Options[1]})
-				ElementSettings.MultipleOptions = ElementSettings.MultipleOptions or false
-				ElementSettings.Special = ElementSettings.Special or 0
-
-					local Element = {
-						Values = ElementSettings,
-						Instances = {},
-						State = false
+					--[[
+					ElementSettings = {
+						Name = string,
+						Icon = number, **
+						ImageSource = string, **
+						Options = table, {string ...}
+						CurrentOption = table/string, {string ...} **
+						MultipleOptions = bool, **
+						Special = number, ** -- 0/nil for none, 1 for Player, 2 for Teams, more hopefully coming soon
+						
+						Callback = function(table)
 					}
-
-					Element.Instances.Element = GroupboxTemplateInstance.Dropdown_TEMPLATE:Clone()
-					Element.Instances.Element.Parent = Groupbox.ParentingItem
-					Element.Instances.Element.Visible = true
-
-					Element.Instances.Element.Name = "DROPDOWN_" .. ElementSettings.Name
-					Element.Instances.Element.Header.Text = ElementSettings.Name
-
-
-					Element.Instances.Popup = mainWindow["Popup Overlay"].Dropdown_TEMPLATE:Clone()
-					Element.Instances.Popup.Parent = mainWindow["Popup Overlay"]
-					Element.Instances.Popup.Header.Text = ElementSettings.Name
-
-
-					--// Interaction System \\--
-					Element.Instances.Element.Icon.MouseButton1Click:Connect(function()
-						mainWindow["Popup Overlay"].Visible = true
-						Element.Instances.Popup.Visible = true
-
-						UserInputService.InputBegan:Connect(function(i, g)
-							if g or i.UserInputType ~= Enum.UserInputType.MouseButton1 then return end
-							local p, pos, size = i.Position, Element.Instances.Popup.AbsolutePosition, Element.Instances.Popup.AbsoluteSize
-							if not (p.X >= pos.X and p.X <= pos.X + size.X and p.Y >= pos.Y and p.Y <= pos.Y + size.Y) then
-								mainWindow["Popup Overlay"].Visible = false
-								Element.Instances.Popup.Visible = false
-							end
-						end)
-					end)
-
-					local function ActivateColorSingle(name)
-						for _, Option in pairs(Element.Instances.Popup.Content:GetChildren()) do
-							if Option.ClassName == "Frame" and not string.find(Option.Name, "Option_Template") then
-								Tween(Option, {BackgroundTransparency = 1})
-								Tween(Option.Header, {TextColor3 = Color3.fromRGB(100, 100, 100)})
-								Option.Header.Accent.Enabled = false
-								Option.Icon.Accent.Enabled = false
-							end
-						end
-
-
-						Tween(Element.Instances.Popup.Content[name], {BackgroundTransparency = 0.8})
-						Tween(Element.Instances.Popup.Content[name].Header, {TextColor3 = Color3.fromRGB(255,255,255)})
-						Element.Instances.Popup.Content[name].Header.Accent.Enabled = true
-						Element.Instances.Popup.Content[name].Icon.Accent.Enabled = true
-
-					end
-
-					local function CB(Sel, Func)
-						local Success, Response = pcall(function()
-							ElementSettings.Callback(Sel)
-						end)
-
-						if Success and Func then
-							Func()
-						end
-					end
-
-					local function Refresh()
-						for i,v in pairs(ElementSettings.Options) do
-							local Option = Element.Instances.Popup.Content.Option_TEMPLATE:Clone()
-							local OptionHover = false
-
-							Option.Header.Text = v
-							Option.Name = v
-
-							Option.Interact.MouseButton1Click:Connect(function()
-								local Selected
-								if ElementSettings.MultipleOptions then
-									if table.find(ElementSettings.CurrentOption, v) then
-										RemoveTable(ElementSettings.CurrentOption, v)
-
-										if not OptionHover then
-											Tween(Option.Header, {TextColor3 = Color3.fromRGB(100, 100, 100)})
-										end
-										Option.BackgroundTransparency = 1
-										Option.Header.Accent.Enabled = false
-										Option.Icon.Accent.Enabled = false
-									else
-										table.insert(ElementSettings.CurrentOption, v)
-										Tween(Option.Header, {TextColor3 = Color3.fromRGB(255, 255, 255)})
-										Option.BackgroundTransparency = 0.8
-										Option.Header.Accent.Enabled = true
-										Option.Icon.Accent.Enabled = true
-									end
-									Selected = ElementSettings.CurrentOption
-
-								else
-									ElementSettings.CurrentOption = {v}
-									Selected = v
-
-									ActivateColorSingle(v)
+					]]
+					ElementSettings.ImageSource = ElementSettings.ImageSource or "Material"
+					ElementSettings.CurrentOption = ElementSettings.CurrentOption or ({ElementSettings.Options[1]})
+					ElementSettings.MultipleOptions = ElementSettings.MultipleOptions or false
+					ElementSettings.Special = ElementSettings.Special or 0
+	
+						local Element = {
+							Values = ElementSettings,
+							Instances = {},
+							State = false
+						}
+	
+						Element.Instances.Element = GroupboxTemplateInstance.Dropdown_TEMPLATE:Clone()
+						Element.Instances.Element.Parent = Groupbox.ParentingItem
+						Element.Instances.Element.Visible = true
+	
+						Element.Instances.Element.Name = "DROPDOWN_" .. ElementSettings.Name
+						Element.Instances.Element.Header.Text = ElementSettings.Name
+	
+	
+						Element.Instances.Popup = mainWindow["Popup Overlay"].Dropdown_TEMPLATE:Clone()
+						Element.Instances.Popup.Parent = mainWindow["Popup Overlay"]
+						Element.Instances.Popup.Header.Text = ElementSettings.Name
+	
+	
+						--// Interaction System \\--
+						Element.Instances.Element.Icon.MouseButton1Click:Connect(function()
+							mainWindow["Popup Overlay"].Visible = true
+							Element.Instances.Popup.Visible = true
+	
+							UserInputService.InputBegan:Connect(function(i, g)
+								if g or i.UserInputType ~= Enum.UserInputType.MouseButton1 then return end
+								local p, pos, size = i.Position, Element.Instances.Popup.AbsolutePosition, Element.Instances.Popup.AbsoluteSize
+								if not (p.X >= pos.X and p.X <= pos.X + size.X and p.Y >= pos.Y and p.Y <= pos.Y + size.Y) then
+									mainWindow["Popup Overlay"].Visible = false
+									Element.Instances.Popup.Visible = false
 								end
-
-
-
-								CB(Selected, function()
+							end)
+						end)
+	
+						local function ActivateColorSingle(name)
+							for _, Option in pairs(Element.Instances.Popup.Content:GetChildren()) do
+								if Option.ClassName == "Frame" and not string.find(Option.Name, "Option_Template") then
+									Tween(Option, {BackgroundTransparency = 1})
+									Tween(Option.Header, {TextColor3 = Color3.fromRGB(100, 100, 100)})
+									Option.Header.Accent.Enabled = false
+									Option.Icon.Accent.Enabled = false
+								end
+							end
+	
+	
+							Tween(Element.Instances.Popup.Content[name], {BackgroundTransparency = 0.8})
+							Tween(Element.Instances.Popup.Content[name].Header, {TextColor3 = Color3.fromRGB(255,255,255)})
+							Element.Instances.Popup.Content[name].Header.Accent.Enabled = true
+							Element.Instances.Popup.Content[name].Icon.Accent.Enabled = true
+	
+						end
+	
+						local function CB(Sel, Func)
+							local Success, Response = pcall(function()
+								ElementSettings.Callback(Sel)
+							end)
+	
+							if Success and Func then
+								Func()
+							end
+						end
+	
+						local function Refresh()
+							for i,v in pairs(ElementSettings.Options) do
+								local Option = Element.Instances.Popup.Content.Option_TEMPLATE:Clone()
+								local OptionHover = false
+	
+								Option.Header.Text = v
+								Option.Name = v
+	
+								Option.Interact.MouseButton1Click:Connect(function()
+									local Selected
 									if ElementSettings.MultipleOptions then
-										if not ElementSettings.CurrentOption and type(ElementSettings.CurrentOption) == "table" then
-											ElementSettings.CurrentOption = {}
+										if table.find(ElementSettings.CurrentOption, v) then
+											RemoveTable(ElementSettings.CurrentOption, v)
+	
+											if not OptionHover then
+												Tween(Option.Header, {TextColor3 = Color3.fromRGB(100, 100, 100)})
+											end
+											Option.BackgroundTransparency = 1
+											Option.Header.Accent.Enabled = false
+											Option.Icon.Accent.Enabled = false
+										else
+											table.insert(ElementSettings.CurrentOption, v)
+											Tween(Option.Header, {TextColor3 = Color3.fromRGB(255, 255, 255)})
+											Option.BackgroundTransparency = 0.8
+											Option.Header.Accent.Enabled = true
+											Option.Icon.Accent.Enabled = true
 										end
+										Selected = ElementSettings.CurrentOption
+	
+									else
+										ElementSettings.CurrentOption = {v}
+										Selected = v
+	
+										ActivateColorSingle(v)
+									end
+	
+	
+	
+									CB(Selected, function()
+										if ElementSettings.MultipleOptions then
+											if not ElementSettings.CurrentOption and type(ElementSettings.CurrentOption) == "table" then
+												ElementSettings.CurrentOption = {}
+											end
+										end
+									end)
+								end)
+	
+	
+								Option.Visible = true
+								Option.Parent = Element.Instances.Popup.Content
+	
+								Option.Interact.MouseEnter:Connect(function()
+									OptionHover = true
+									if Option.Header.Accent.Enabled then
+										return
+									else
+										Tween(Option.Header, {TextColor3 = Color3.fromRGB(200,200,200)})
 									end
 								end)
-							end)
-
-
-							Option.Visible = true
-							Option.Parent = Element.Instances.Popup.Content
-
-							Option.Interact.MouseEnter:Connect(function()
-								OptionHover = true
-								if Option.Header.Accent.Enabled then
-									return
-								else
-									Tween(Option.Header, {TextColor3 = Color3.fromRGB(200,200,200)})
-								end
-							end)
-
-							Option.Interact.MouseLeave:Connect(function()
-								OptionHover = false
-								if Option.Header.Accent.Enabled then
-									return
-								else
-									Tween(Option.Header, {TextColor3 = Color3.fromRGB(100,100,100)})
-								end
-							end)	
-
+	
+								Option.Interact.MouseLeave:Connect(function()
+									OptionHover = false
+									if Option.Header.Accent.Enabled then
+										return
+									else
+										Tween(Option.Header, {TextColor3 = Color3.fromRGB(100,100,100)})
+									end
+								end)	
+	
+							end
 						end
-					end
-
-					Refresh()
-
-					if ElementSettings.CurrentOption then
-						if type(ElementSettings.CurrentOption) == "string" then
-							ElementSettings.CurrentOption = {ElementSettings.CurrentOption}
+	
+						Refresh()
+	
+						if ElementSettings.CurrentOption then
+							if type(ElementSettings.CurrentOption) == "string" then
+								ElementSettings.CurrentOption = {ElementSettings.CurrentOption}
+							end
+							if not ElementSettings.MultipleOptions and type(ElementSettings.CurrentOption) == "table" then
+								ElementSettings.CurrentOption = {ElementSettings.CurrentOption[1]}
+							end
+						else
+							ElementSettings.CurrentOption = {}
 						end
-						if not ElementSettings.MultipleOptions and type(ElementSettings.CurrentOption) == "table" then
-							ElementSettings.CurrentOption = {ElementSettings.CurrentOption[1]}
+	
+						local Selected, ind = nil,0
+						for i,v in pairs(ElementSettings.CurrentOption) do
+							ind = ind + 1
 						end
-					else
-						ElementSettings.CurrentOption = {}
-					end
-
-					local Selected, ind = nil,0
-					for i,v in pairs(ElementSettings.CurrentOption) do
-						ind = ind + 1
-					end
-					if ind == 1 then Selected = ElementSettings.CurrentOption[1] else Selected = ElementSettings.CurrentOption end
-					CB(Selected)
-					if type(Selected) == "string" then 
-						Tween(Element.Instances.Popup.Content[Selected], {BackgroundTransparency = 0.8})
-						Tween(Element.Instances.Popup.Content[Selected].Header, {TextColor3 = Color3.fromRGB(255,255,255)})
-						Element.Instances.Popup.Content[Selected].Header.Accent.Enabled = true
-						Element.Instances.Popup.Content[Selected].Icon.Accent.Enabled = true
-					else
-						for i,v in pairs(Selected) do
+						if ind == 1 then Selected = ElementSettings.CurrentOption[1] else Selected = ElementSettings.CurrentOption end
+						CB(Selected)
+						if type(Selected) == "string" then 
 							Tween(Element.Instances.Popup.Content[Selected], {BackgroundTransparency = 0.8})
 							Tween(Element.Instances.Popup.Content[Selected].Header, {TextColor3 = Color3.fromRGB(255,255,255)})
 							Element.Instances.Popup.Content[Selected].Header.Accent.Enabled = true
 							Element.Instances.Popup.Content[Selected].Icon.Accent.Enabled = true
+						else
+							for i,v in pairs(Selected) do
+								Tween(Element.Instances.Popup.Content[Selected], {BackgroundTransparency = 0.8})
+								Tween(Element.Instances.Popup.Content[Selected].Header, {TextColor3 = Color3.fromRGB(255,255,255)})
+								Element.Instances.Popup.Content[Selected].Header.Accent.Enabled = true
+								Element.Instances.Popup.Content[Selected].Icon.Accent.Enabled = true
+							end
 						end
-					end
-
-					if ElementSettings.MultipleOptions then
-						if not ElementSettings.CurrentOption and type(ElementSettings.CurrentOption) == "table" then
-							ElementSettings.CurrentOption = {}
+	
+						if ElementSettings.MultipleOptions then
+							if not ElementSettings.CurrentOption and type(ElementSettings.CurrentOption) == "table" then
+								ElementSettings.CurrentOption = {}
+							end
 						end
+	
+						function Element:Destroy()
+							Element.Instance:Destroy()
+						end
+	
+						Starlight.Window.TabSections[Name].Tabs[TabIndex].Groupboxes[GroupIndex].Elements[ElementSettings.Name] = Element
+						return Starlight.Window.TabSections[Name].Tabs[TabIndex].Groupboxes[GroupIndex].Elements[ElementSettings.Name]
 					end
-
-					function Element:Destroy()
-						Element.Instance:Destroy()
-					end
-
-					Starlight.Window.TabSections[Name].Tabs[TabIndex].Groupboxes[GroupIndex].Elements[ElementSettings.Name] = Element
-					return Starlight.Window.TabSections[Name].Tabs[TabIndex].Groupboxes[GroupIndex].Elements[ElementSettings.Name]
-				end
 
 				function Groupbox:CreateBind(ElementSettings) -- will be merged with toggles and labels soon
 	
