@@ -4370,15 +4370,14 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 						Element.Instance:Destroy()
 					end
 
-					Starlight.Window.TabSections[Name].Tabs[TabIndex].Groupboxes[GroupIndex].Elements[ElementSettings.Name] = Element
-					return Starlight.Window.TabSections[Name].Tabs[TabIndex].Groupboxes[GroupIndex].Elements[ElementSettings.Name]
-				end
+				Starlight.Window.TabSections[Name].Tabs[TabIndex].Groupboxes[GroupIndex].Elements[ElementSettings.Name] = Element
+				return Starlight.Window.TabSections[Name].Tabs[TabIndex].Groupboxes[GroupIndex].Elements[ElementSettings.Name]
+			end
 
+			]=]
 
-				-- coded by justhey the goat
-				function Groupbox:CreateDropdown(ElementSettings, Index)
-					
-					--[[
+			-- coded by justhey the goat
+			function Groupbox:CreateDropdown(ElementSettings, Index)					--[[
 					ElementSettings = {
 						Name = string,
 						Icon = number, **
@@ -4801,7 +4800,6 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 				end
 				
 
-				]=]
 
 				function Groupbox:CreateButton(ElementSettings, Index)
 					--[[
