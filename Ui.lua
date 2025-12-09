@@ -5626,9 +5626,14 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 							and "rbxassetid://" .. Element.Values.Icon
 						or ""
 					
-					-- Make knob bigger for mobile
-					if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled then
-						Element.Instance.PART_Backdrop.PART_Progress.Knob.Size = UDim2.new(0, 28, 0, 28)
+					-- Make knob smaller and circular
+					Element.Instance.PART_Backdrop.PART_Progress.Knob.Size = UDim2.new(0, 20, 0, 20)
+					if Element.Instance.PART_Backdrop.PART_Progress.Knob:FindFirstChild("UICorner") then
+						Element.Instance.PART_Backdrop.PART_Progress.Knob.UICorner.CornerRadius = UDim.new(1, 0)
+					else
+						local corner = Instance.new("UICorner")
+						corner.CornerRadius = UDim.new(1, 0)
+						corner.Parent = Element.Instance.PART_Backdrop.PART_Progress.Knob
 					end
 
 					tooltip = AddToolTip(Element.Values.Tooltip, Element.Instance)						local function Set(Value: number)
@@ -5710,24 +5715,22 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 							end
 						end)
 
-						local dragFunction = function(X)
-							local Current = Element.Instance.PART_Backdrop.PART_Progress.AbsolutePosition.X
-								+ Element.Instance.PART_Backdrop.PART_Progress.AbsoluteSize.X
-							local Start = Current
-							local Location = X
-							local Loop
-							Loop = RunService.Stepped:Connect(function()
-								if Element.SLDragging then
-									-- Support both mouse and touch
-									local touchInputs = UserInputService:GetTouchInputs()
-									if #touchInputs > 0 then
-										Location = touchInputs[1].Position.X
-									else
-										Location = Mouse.X
-									end
-									Current = Current + 0.025 * (Location - Start)
-
-									if Location < Element.Instance.PART_Backdrop.AbsolutePosition.X then
+					local dragFunction = function(X)
+						local Current = Element.Instance.PART_Backdrop.PART_Progress.AbsolutePosition.X
+							+ Element.Instance.PART_Backdrop.PART_Progress.AbsoluteSize.X
+						local Start = Current
+						local Location = X
+						local Loop
+						Loop = RunService.Stepped:Connect(function()
+							if Element.SLDragging then
+								-- Support both mouse and touch
+								if UserInputService.TouchEnabled then
+									local mousePos = UserInputService:GetMouseLocation()
+									Location = mousePos.X
+								else
+									Location = Mouse.X
+								end
+								Current = Current + 0.025 * (Location - Start)									if Location < Element.Instance.PART_Backdrop.AbsolutePosition.X then
 										Location = Element.Instance.PART_Backdrop.AbsolutePosition.X
 									elseif
 										Location
