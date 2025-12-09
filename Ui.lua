@@ -4378,7 +4378,7 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 			-- coded by justhey the goat
 			function Groupbox:CreateDropdown(ElementSettings, Index)
 				
-				-[[
+				--[[
 				ElementSettings = {
 					Name = string,
 					Icon = number, **
@@ -4390,10 +4390,11 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 					
 					Callback = function(table)
 				}
-				]]					ElementSettings.ImageSource = ElementSettings.ImageSource or "Material"
-					ElementSettings.CurrentOption = ElementSettings.CurrentOption or ({ElementSettings.Options[1]})
-					ElementSettings.MultipleOptions = ElementSettings.MultipleOptions or false
-					ElementSettings.Special = ElementSettings.Special or 0
+				]]
+				ElementSettings.ImageSource = ElementSettings.ImageSource or "Material"
+				ElementSettings.CurrentOption = ElementSettings.CurrentOption or ({ElementSettings.Options[1]})
+				ElementSettings.MultipleOptions = ElementSettings.MultipleOptions or false
+				ElementSettings.Special = ElementSettings.Special or 0
 
 					local Element = {
 						Values = ElementSettings,
