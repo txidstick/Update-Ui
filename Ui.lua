@@ -5730,7 +5730,7 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 								else
 									Location = Mouse.X
 								end
-								Current = Current + 0.025 * (Location - Start)									if Location < Element.Instance.PART_Backdrop.AbsolutePosition.X then
+								Current = Location									if Location < Element.Instance.PART_Backdrop.AbsolutePosition.X then
 										Location = Element.Instance.PART_Backdrop.AbsolutePosition.X
 									elseif
 										Location
