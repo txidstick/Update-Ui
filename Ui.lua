@@ -4375,24 +4375,22 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 				end
 
 
-				-- coded by justhey the goat
-				function Groupbox:CreateDropdown(ElementSettings)
+			-- coded by justhey the goat
+			function Groupbox:CreateDropdown(ElementSettings, Index)
+				
+				-[[
+				ElementSettings = {
+					Name = string,
+					Icon = number, **
+					ImageSource = string, **
+					Options = table, {string ...}
+					CurrentOption = table/string, {string ...} **
+					MultipleOptions = bool, **
+					Special = number, ** -- 0/nil for none, 1 for Player, 2 for Teams, more hopefully coming soon
 					
-					-[[
-					ElementSettings = {
-						Name = string,
-						Icon = number, **
-						ImageSource = string, **
-						Options = table, {string ...}
-						CurrentOption = table/string, {string ...} **
-						MultipleOptions = bool, **
-						Special = number, ** -- 0/nil for none, 1 for Player, 2 for Teams, more hopefully coming soon
-						
-						Callback = function(table)
-					}
-					]]
-
-					ElementSettings.ImageSource = ElementSettings.ImageSource or "Material"
+					Callback = function(table)
+				}
+				]]					ElementSettings.ImageSource = ElementSettings.ImageSource or "Material"
 					ElementSettings.CurrentOption = ElementSettings.CurrentOption or ({ElementSettings.Options[1]})
 					ElementSettings.MultipleOptions = ElementSettings.MultipleOptions or false
 					ElementSettings.Special = ElementSettings.Special or 0
@@ -5613,24 +5611,27 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 
 						local tooltip
 
-						Element.Instance = GroupboxTemplateInstance.Slider_TEMPLATE:Clone()
-						Element.Instance.Visible = true
+					Element.Instance = GroupboxTemplateInstance.Slider_TEMPLATE:Clone()
+					Element.Instance.Visible = true
 
-						Element.Instance.Name = "SLIDER_" .. Index
-						Element.Instance.Header.Text = Element.Values.Name
-						Element.Instance.Header.Icon.Visible = not String.IsEmptyOrNull(Element.Values.Icon)
-						if Element.Instance.Header.Icon.Visible == false then
-							Element.Instance.Header.UIPadding.PaddingLeft = UDim.new(0, 6)
-						else
-							Element.Instance.Header.UIPadding.PaddingLeft = UDim.new(0, 32)
-						end
-						Element.Instance.Header.Icon.Image = not String.IsEmptyOrNull(Element.Values.Icon)
-								and "rbxassetid://" .. Element.Values.Icon
-							or ""
+					Element.Instance.Name = "SLIDER_" .. Index
+					Element.Instance.Header.Text = Element.Values.Name
+					Element.Instance.Header.Icon.Visible = not String.IsEmptyOrNull(Element.Values.Icon)
+					if Element.Instance.Header.Icon.Visible == false then
+						Element.Instance.Header.UIPadding.PaddingLeft = UDim.new(0, 6)
+					else
+						Element.Instance.Header.UIPadding.PaddingLeft = UDim.new(0, 32)
+					end
+					Element.Instance.Header.Icon.Image = not String.IsEmptyOrNull(Element.Values.Icon)
+							and "rbxassetid://" .. Element.Values.Icon
+						or ""
+					
+					-- Make knob bigger for mobile
+					if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled then
+						Element.Instance.PART_Backdrop.PART_Progress.Knob.Size = UDim2.new(0, 28, 0, 28)
+					end
 
-						tooltip = AddToolTip(Element.Values.Tooltip, Element.Instance)
-
-						local function Set(Value: number)
+					tooltip = AddToolTip(Element.Values.Tooltip, Element.Instance)						local function Set(Value: number)
 							if Value then
 								Element.Values.CurrentValue = Value
 
