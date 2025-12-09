@@ -128,14 +128,14 @@ local Themes = {
 		},
 		Accents = {
 			Main = ColorSequence.new({
-				ColorSequenceKeypoint.new(0.0, Color3.fromRGB(230, 186, 251)),
-				ColorSequenceKeypoint.new(0.5, Color3.fromRGB(161, 169, 225)),
-				ColorSequenceKeypoint.new(1.0, Color3.fromRGB(138, 201, 242)),
+				ColorSequenceKeypoint.new(0.0, Color3.fromRGB(80, 80, 80)),
+				ColorSequenceKeypoint.new(0.5, Color3.fromRGB(80, 80, 80)),
+				ColorSequenceKeypoint.new(1.0, Color3.fromRGB(80, 80, 80)),
 			}),
 			Brighter = ColorSequence.new({
-				ColorSequenceKeypoint.new(0.0, Color3.fromRGB(241, 212, 251)),
-				ColorSequenceKeypoint.new(0.5, Color3.fromRGB(187, 192, 225)),
-				ColorSequenceKeypoint.new(1.0, Color3.fromRGB(195, 227, 242)),
+				ColorSequenceKeypoint.new(0.0, Color3.fromRGB(100, 100, 100)),
+				ColorSequenceKeypoint.new(0.5, Color3.fromRGB(100, 100, 100)),
+				ColorSequenceKeypoint.new(1.0, Color3.fromRGB(100, 100, 100)),
 			}),
 		},
 	},
@@ -5730,7 +5730,9 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 								else
 									Location = Mouse.X
 								end
-								Current = Location									if Location < Element.Instance.PART_Backdrop.AbsolutePosition.X then
+								Current = Location
+
+								if Location < Element.Instance.PART_Backdrop.AbsolutePosition.X then
 										Location = Element.Instance.PART_Backdrop.AbsolutePosition.X
 									elseif
 										Location
@@ -5758,7 +5760,7 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 										Start = Location
 									end
 
-									local percentage = (Location - Element.Instance.PART_Backdrop.AbsolutePosition.X)
+									local percentage = (Current - Element.Instance.PART_Backdrop.AbsolutePosition.X)
 										/ Element.Instance.PART_Backdrop.AbsoluteSize.X
 									Tween(
 										Element.Instance.PART_Backdrop.PART_Progress,
