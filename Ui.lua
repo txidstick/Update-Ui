@@ -5718,8 +5718,12 @@ end	WindowSettings.FileSettings = WindowSettings.FileSettings or {}
 							Loop = RunService.Stepped:Connect(function()
 								if Element.SLDragging then
 									-- Support both mouse and touch
-									local touchPos = UserInputService:GetTouchPosition(1)
-									Location = (UserInputService.TouchEnabled and touchPos.X > 0) and touchPos.X or Mouse.X
+									local touchInputs = UserInputService:GetTouchInputs()
+									if #touchInputs > 0 then
+										Location = touchInputs[1].Position.X
+									else
+										Location = Mouse.X
+									end
 									Current = Current + 0.025 * (Location - Start)
 
 									if Location < Element.Instance.PART_Backdrop.AbsolutePosition.X then
